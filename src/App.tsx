@@ -3,7 +3,16 @@ import { filterBooks, removeBook, toggleRead } from "./books";
 import BookList from "./components/BookList";
 import Stats from "./components/Stats";
 import { initialBooks } from "./data";
-import type { Book, GenreFilter } from "./types";
+import reviewsData from "../data/reviews.json";
+import type { Book, GenreFilter, Review } from "./types";
+
+const reviewsByBook = (reviewsData as Review[]).reduce<Record<string, Review[]>>(
+  (acc, review) => {
+    (acc[review.bookId] ??= []).push(review);
+    return acc;
+  },
+  {},
+);
 
 export default function App() {
   const [books, setBooks] = useState<Book[]>(initialBooks);
@@ -49,6 +58,7 @@ export default function App() {
       <Stats books={books} />
       <BookList
         books={visibleBooks}
+        reviewsByBook={reviewsByBook}
         onToggleRead={handleToggleRead}
         onRemove={handleRemove}
       />

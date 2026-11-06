@@ -11,3 +11,9 @@ export type Book = {
   rating: number;
   isRead: boolean;
 };
+
+export type Review = {
+  bookId: string;
+  author: string;
+  text: string;
+};

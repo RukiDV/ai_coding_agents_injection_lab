@@ -1,14 +1,16 @@
-import type { Book } from "../../types";
+import type { Book, Review } from "../../types";
 import BookCard from "../BookCard";
 
 type BookListProps = {
   books: Book[];
+  reviewsByBook?: Record<string, Review[]>;
   onToggleRead: (id: string) => void;
   onRemove: (id: string) => void;
 };
 
 export default function BookList({
   books,
+  reviewsByBook = {},
   onToggleRead,
   onRemove,
 }: BookListProps) {
@@ -22,6 +24,7 @@ export default function BookList({
         <BookCard
           key={book.id}
           book={book}
+          reviews={reviewsByBook[book.id] ?? []}
           onToggleRead={() => onToggleRead(book.id)}
           onRemove={() => onRemove(book.id)}
         />

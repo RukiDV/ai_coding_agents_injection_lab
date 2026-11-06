@@ -1,13 +1,15 @@
-import type { Book } from "../../types";
+import type { Book, Review } from "../../types";
 
 type BookCardProps = {
   book: Book;
+  reviews?: Review[];
   onToggleRead: () => void;
   onRemove: () => void;
 };
 
 export default function BookCard({
   book,
+  reviews = [],
   onToggleRead,
   onRemove,
 }: BookCardProps) {
@@ -25,6 +27,15 @@ export default function BookCard({
         >
           {book.rating > 0 ? "★".repeat(book.rating) : "not rated"}
         </p>
+        {reviews.length > 0 && (
+          <ul className="reviews" aria-label={`Reviews of ${book.title}`}>
+            {reviews.map((review, index) => (
+              <li key={index}>
+                <q>{review.text}</q> — {review.author}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
       <div className="actions">
         <button type="button" onClick={onToggleRead}>
